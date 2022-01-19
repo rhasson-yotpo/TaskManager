@@ -1,0 +1,17 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven {
+            url "https://packages.confluent.io/maven/"
+        }
+        maven {
+            url = uri("https://jitpack.io")
+        }
+    }
+}
+
+rootProject.name = 'FinalTask'
+
+include 'core'
+include 'api'
+
