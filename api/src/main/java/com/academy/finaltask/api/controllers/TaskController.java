@@ -43,15 +43,15 @@ public class TaskController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/edit")
-    public ResponseEntity<String> edit (RequestEntity<String> request) throws ParseException{
+    public ResponseEntity<String> edit (RequestEntity<String> request) throws ParseException {
         try {
-            Task editedTask = taskService.update(taskConverter.taskFromRequest(request));
+            Task editedTask = taskService.update(taskConverter.taskFromEditRequest(request));
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(taskConverter.toTaskResponse(editedTask));
         } catch (EntityExistsException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Task already exists, no edits made");
         }
         catch (JSONException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect JSON Formatting");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect JSON Formatting, Id is necessary for edit");
         }
     }
 
@@ -75,12 +75,9 @@ public class TaskController {
 
     /*
     TODO:
-     Add multiple tasks
-     Edit Task,
+     Add multiple tasks - not super important right away
      Get all for one employee : filter and sort
      Delete task, Delete all for one employee
-     Fix edit to actually edit
-     fix status bug
 
      Calls service to check validity and execute action
      returns response entity

@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface TaskRepository extends CrudRepository<Task, Long> {
     boolean existsByTitle(String title);
     List<Task> findAllByAssignee(Employee assignee);
+    Task findByTitle(String title);
 
     @Transactional
     void deleteAllByAssignee(Employee assignee);

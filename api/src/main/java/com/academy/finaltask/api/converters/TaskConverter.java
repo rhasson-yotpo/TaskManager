@@ -27,6 +27,10 @@ public class TaskConverter {
         return taskFromJSONObject(new JSONObject(request.getBody()));
     }
 
+    public Task taskFromEditRequest(RequestEntity<String> request) throws ParseException, JSONException {
+        return taskWithIdFromJSONObject(new JSONObject(request.getBody()));
+    }
+
     public List<Task> tasksFromRequest(RequestEntity<String> request) throws ParseException, JSONException {
         JSONArray objs = new JSONArray(request.getBody());
         List<Task> tasks = new ArrayList<Task>();
@@ -39,6 +43,16 @@ public class TaskConverter {
 
     public Task taskFromJSONObject(JSONObject obj) throws ParseException, JSONException {
         return new Task(
+                obj.getString("title"),
+                employeeConverter.employeeFromJSONObject((JSONObject) obj.get("assignee")),
+                new SimpleDateFormat("ddMMyyyy").parse(obj.getString("due")),
+                statusFromString(obj.getString("status"))
+        );
+    }
+
+    public Task taskWithIdFromJSONObject(JSONObject obj) throws ParseException, JSONException{
+        return new Task(
+                Long.parseLong(obj.getString("Id")),
                 obj.getString("title"),
                 employeeConverter.employeeFromJSONObject((JSONObject) obj.get("assignee")),
                 new SimpleDateFormat("ddMMyyyy").parse(obj.getString("due")),

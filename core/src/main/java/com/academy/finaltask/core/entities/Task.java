@@ -1,5 +1,6 @@
 package com.academy.finaltask.core.entities;
 
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@SuperBuilder
 public class Task {
 
     @Id
@@ -29,6 +31,14 @@ public class Task {
     }
 
     public Task(String title, Employee assignee, Date dueDate, Status status) {
+        this.title = title;
+        this.assignee = assignee;
+        this.dueDate = dueDate;
+        this.status = status;
+    }
+
+    public Task(Long taskId, String title, Employee assignee, Date dueDate, Status status) {
+        this.taskId = taskId;
         this.title = title;
         this.assignee = assignee;
         this.dueDate = dueDate;
