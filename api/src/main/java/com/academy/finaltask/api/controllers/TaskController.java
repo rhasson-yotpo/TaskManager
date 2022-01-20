@@ -69,6 +69,13 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("deleted");
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTask(RequestEntity<String> request, @PathVariable Long id){
+        taskService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(String.format("deleted task with Id %o", id));
+    }
+
 
 
 
@@ -77,7 +84,6 @@ public class TaskController {
     TODO:
      Add multiple tasks - not super important right away
      Get all for one employee : filter and sort
-     Delete task, Delete all for one employee
 
      Calls service to check validity and execute action
      returns response entity
