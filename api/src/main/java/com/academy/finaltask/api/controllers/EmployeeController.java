@@ -29,6 +29,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeConverter employeeConverter;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/add")
     public ResponseEntity<String> create(RequestEntity<String> request) throws ParseException, EntityExistsException {
         try {
@@ -49,12 +50,14 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(employeeConverter.toEmployeesResponse(employees).toString());
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/all")
     public ResponseEntity<String> deleteAll(RequestEntity<String> request){
         employeeService.deleteAll();
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("deleted");
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/{firstName}/{lastName}")
     public ResponseEntity<String> getAllForEmployee(RequestEntity<String> request, @PathVariable String firstName, @PathVariable String lastName){
         List<Task> employeeTasks = employeeService.findByFirstAndLastName(firstName, lastName).getTasks();

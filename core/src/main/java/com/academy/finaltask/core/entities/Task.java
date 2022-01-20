@@ -21,6 +21,8 @@ public class Task {
     private Employee assignee;
 
     private Date dueDate;
+
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
 
     public Task() {
@@ -75,5 +77,16 @@ public class Task {
 
     public boolean isValidTask(){
         return this.getTitle() != null && this.getAssignee() != null && this.getStatus() != null && this.getDueDate() != null;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskId=" + taskId +
+                ", title='" + title + '\'' +
+                ", assignee=" + assignee +
+                ", dueDate=" + dueDate +
+                ", status=" + status +
+                '}';
     }
 }

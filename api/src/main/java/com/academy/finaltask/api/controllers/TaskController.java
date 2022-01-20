@@ -10,6 +10,7 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -26,11 +27,11 @@ public class TaskController {
     @Autowired
     private TaskConverter taskConverter;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/add")
     public ResponseEntity<String> create(RequestEntity<String> request) throws ParseException {
         try {
             Task createdTask = taskService.create(taskConverter.taskFromRequest(request));
-            System.out.println(createdTask.getStatus());
             return ResponseEntity.status(HttpStatus.CREATED).body(taskConverter.toTaskResponse(createdTask));
         } catch (EntityExistsException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Task already exists");
@@ -40,6 +41,7 @@ public class TaskController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/edit")
     public ResponseEntity<String> edit (RequestEntity<String> request) throws ParseException{
         try {
@@ -57,10 +59,10 @@ public class TaskController {
     @GetMapping("/all")
     public ResponseEntity<String> getAll(RequestEntity<String> request) throws ParseException, EntityExistsException {
         List<Task> tasks = (List<Task>) taskService.findAll();
-        System.out.println(taskConverter.toTasksResponse(tasks).toString());
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(taskConverter.toTasksResponse(tasks).toString());
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/all")
     public ResponseEntity<String> deleteAll(RequestEntity<String> request){
         taskService.deleteAll();
