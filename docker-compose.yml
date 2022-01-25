@@ -4,6 +4,10 @@ services:
   mysql:
     container_name: mysql
     image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=Tasks
+
     networks:
       - java-backend-network
 
