@@ -7,20 +7,22 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=rootpass
       - MYSQL_DATABASE=Tasks
+      - MYSQL_USER=ron
+      - MYSQL_PASSWORD=pass
 
     networks:
       - java-backend-network
 
   spring_app:
     container_name: spring_app
-    image: sprig_app
+    image: spring_app
     build:
       context: .
       dockerfile: dockerfile
       args:
         - JARFILE=./api/build/libs/api-1.0-SNAPSHOT.jar
     ports:
-      -"8080:8080"
+      - 8080:8080
     networks:
       - java-backend-network
     depends_on:

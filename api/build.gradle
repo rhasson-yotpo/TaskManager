@@ -16,6 +16,7 @@ repositories {
 }
 
 dependencies {
+
     // Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -23,7 +24,7 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     implementation "javax.persistence:javax.persistence-api"
-
+    implementation 'org.springframework.retry:spring-retry:1.2.4.RELEASE'
     implementation project(":core")
 }
 

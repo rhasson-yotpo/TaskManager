@@ -61,3 +61,7 @@ subprojects {
     }
 
 }
+
+dependencies {
+    implementation 'tech.mlsql.api.jdbc:mlsql-jdbc:0.1.0'
+}
