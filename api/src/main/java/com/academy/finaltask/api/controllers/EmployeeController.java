@@ -8,7 +8,7 @@ import com.academy.finaltask.core.exceptions.EntityExistsException;
 import com.academy.finaltask.core.services.EmployeeService;
 import com.academy.finaltask.core.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;

@@ -21,10 +21,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    //annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     implementation "javax.persistence:javax.persistence-api"
     implementation 'org.springframework.retry:spring-retry:1.2.4.RELEASE'
+    implementation 'org.json:json:20211205'
     implementation project(":core")
 }
 
