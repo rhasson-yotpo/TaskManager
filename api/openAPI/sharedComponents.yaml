@@ -1,0 +1,34 @@
+schemas:
+  MessageResponse:
+    type: object
+    properties:
+      message:
+        type: string
+  IdAndDates:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+
+parameters:
+  PathParams:
+  PaginationParams:
+    PageNumber:
+      in: query
+      name: page
+      schema:
+        type: integer
+      description: The page of results to show
+    PageLimit:
+      in: query
+      name: limit
+      schema:
+        type: integer
+      description: Return up to this many results per page

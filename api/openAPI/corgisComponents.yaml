@@ -1,0 +1,62 @@
+CorgiRequest:
+  type: object
+  properties:
+    corgi:
+      type: object
+      properties:
+        name:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        vegan:
+          type: boolean
+CorgiResponse:
+  type: object
+  properties:
+    corgi:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        vegan:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+CorgisResponse:
+  type: object
+  properties:
+    corgis:
+      type: array
+      items:
+        $ref: '#/CorgiResponse'
+MessageResponse:
+  type: object
+  properties:
+    message:
+      type: string
+MessageWithIdResponse:
+  type: object
+  properties:
+    id:
+      type: integer
+      format: int64
+    message:
+      type: string
+ObjectIdRequest:
+  name: id
+  in: path
+  required: true
+  schema:
+    type: integer
+    format: int64

@@ -1,0 +1,130 @@
+corgi:
+  get:
+    summary: Get corgi by internal id
+    tags:
+      - corgis
+    operationId: findById
+    parameters:
+      - in: path
+        name: corgi_id
+        required: true
+        schema:
+          type: integer
+          format: int64
+        description: The corgi id
+    responses:
+      200:
+        description: Corgi
+        content:
+          application/json:
+            schema:
+              $ref: 'corgisComponents.yaml#/CorgiResponse'
+      400:
+        description: The request contains illegal argument/s
+      401:
+        description: Access token is missing or invalid
+      404:
+        description: Corgi was not found
+  put:
+    summary: Updating existing corgi
+    operationId: update
+    tags:
+      - corgis
+    parameters:
+      - in: path
+        name: corgi_id
+        required: true
+        schema:
+          type: integer
+          format: int64
+        description: The corgi id
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'corgisComponents.yaml#/CorgiRequest'
+    responses:
+      200:
+        description: The updated corgi
+        content:
+          application/json:
+            schema:
+              $ref: 'corgisComponents.yaml#/CorgiResponse'
+      404:
+        description: Not found
+  delete:
+    summary: Delete corgi by id
+    operationId: delete
+    tags:
+      - corgis
+    parameters:
+      - in: path
+        name: corgi_id
+        required: true
+        schema:
+          type: integer
+          format: int64
+        description: The corgi id
+    responses:
+      200:
+        description: The corgi was deleted
+      404:
+        description: Not found
+
+corgis:
+  get:
+    summary: Get all corgis
+    operationId: index
+    tags:
+      - corgis
+    parameters:
+      - $ref: 'sharedComponents.yaml#/parameters/PaginationParams/PageNumber'
+      - $ref: 'sharedComponents.yaml#/parameters/PaginationParams/PageLimit'
+    responses:
+      200:
+        description: The requested corgi
+        content:
+          application/json:
+            schema:
+              $ref: 'corgisComponents.yaml#/CorgisResponse'
+      404:
+        description: Not found
+  post:
+    summary: Create a new corgi
+    operationId: create
+    tags:
+      - corgis
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'corgisComponents.yaml#/CorgiRequest'
+    responses:
+      200:
+        description: The create corgi
+        content:
+          application/json:
+            schema:
+              $ref: 'corgisComponents.yaml#/CorgiResponse'
+
+corgis_async:
+  post:
+    summary: Create a new corgi async
+    operationId: createAsync
+    tags:
+      - corgis
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'corgisComponents.yaml#/CorgiRequest'
+    responses:
+      200:
+        description: Response message
+        content:
+          application/json:
+            schema:
+              $ref: 'corgisComponents.yaml#/MessageResponse'
