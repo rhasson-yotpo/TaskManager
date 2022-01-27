@@ -1,0 +1,57 @@
+TaskRequest:
+  type: object
+  properties:
+    task:
+      type: object
+      properties:
+        title:
+          type: string
+        status:
+          type: string
+        assignee:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+        dueDate:
+          type: string
+          format: date
+TaskResponse:
+  type: object
+  properties:
+    task:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        status:
+          type: string
+        assignee:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+        dueDate:
+          type: string
+          format: date
+TasksResponse:
+  type: object
+  properties:
+    tasks:
+      type: array
+      items:
+        $ref: '#/TaskResponse'
+ObjectIdRequest:
+  name: id
+  in: path
+  required: true
+  schema:
+    type: integer
+    format: int64

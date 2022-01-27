@@ -1,0 +1,33 @@
+task:
+  post:
+    summary: post a task
+    operationId: create
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'TaskComponents.yaml#/TaskRequest'
+  responses:
+    200:
+      description: created task
+      content:
+        application/json:
+          schema:
+            $ref: 'TaskComponents.yaml#/TaskResponse'
+    400:
+      description: request unable to go through
+
+tasks:
+  get:
+    summary: get all tasks
+    operationId: read
+    responses:
+      200:
+        description: all current tasks
+        content:
+          application/json:
+            schema:
+              $ref: 'TaskComponents.yaml#/TasksResponse'
+      204:
+        description: no tasks yet
