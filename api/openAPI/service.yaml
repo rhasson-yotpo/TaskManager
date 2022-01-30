@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Tasks Service
-  description: Corgis service
+  description: task service
   version: 1.0
 
 servers:
@@ -19,5 +19,7 @@ security:
   - bearer: []
 
 paths:
-  /tasks:
-    $ref: 'corgisRequests.yaml#/tasks'
+  /tasks/all:
+    $ref: 'TaskRequest.yaml#/tasks'
+  /task/add:
+    $ref: 'TaskRequest.yaml#/task'

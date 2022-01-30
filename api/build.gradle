@@ -1,9 +1,28 @@
 plugins {
+    id 'org.openapi.generator'
 }
 
 apply plugin: 'org.springframework.boot'
 
 group 'com.academy.finaltask'
+
+ext {
+    sourceCompatibility = '11'
+
+    group = "com.academy.finaltask"
+
+    generateServerLocation = "$buildDir/generated/server"
+    generateAngularClientLocation = "$buildDir/generated/angular-client"
+    generateJavaClientLocation = "$buildDir/generated/java-client"
+
+    clientArtifactId = 'java-micro-demo-client'
+    clientGroupId = "com.yotpo.demo.client"
+    artifactoryContextUrl = 'https://yotpo.jfrog.io/yotpo'
+    artifactoryJavaLocalRepoKey = 'java-local'
+    clientVersion = '1.0.0-' + ((System.env['TRAVIS_BRANCH'] == null || System.env['TRAVIS_BRANCH'] == 'master') ? 'RELEASE' : System.env['TRAVIS_BRANCH'])
+    artifactFileName = "${clientArtifactId}-${clientVersion}.jar"
+    artifactPath = "${generateJavaClientLocation}/build/libs/${artifactFileName}"
+}
 
 configurations {
     compileOnly {
@@ -14,6 +33,35 @@ configurations {
 repositories {
     mavenCentral()
 }
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "$projectDir/openApi/service.yaml"
+    outputDir = "$generateServerLocation"
+    apiPackage = "${group}.api.generated"
+    invokerPackage = "${group}.api.generated.invoker"
+    modelPackage = "${group}.api.generated.model"
+//    modelNameSuffix = "Dto"
+
+    // config options "documentation": https://openapi-generator.tech/docs/generators/spring
+    configOptions = [
+            dateLibrary            : "java8-localdatetime",
+            hideGenerationTimestamp: "true",
+            interfaceOnly          : "true",
+            unhandledException     : "true",
+            useTags                : "true"
+    ]
+}
+
+task generateFullSchemaFile(type: Exec) {
+    commandLine "$rootDir/scripts/combine_openapi_files.sh", "$rootDir"
+}
+compileJava.dependsOn tasks.generateFullSchemaFile
+compileJava.dependsOn tasks.openApiGenerate
+task cleanAutoGenerateFiles(type: Delete) {
+    delete "$generateServerLocation"
+}
+tasks.openApiGenerate.dependsOn tasks.cleanAutoGenerateFiles
 
 dependencies {
 

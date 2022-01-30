@@ -21,7 +21,7 @@ task:
 tasks:
   get:
     summary: get all tasks
-    operationId: read
+    operationId: getAll
     responses:
       200:
         description: all current tasks

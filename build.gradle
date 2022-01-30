@@ -54,6 +54,8 @@ subprojects {
 
     dependencies {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        implementation "io.swagger:swagger-annotations:${swaggerVersion}"
+        implementation "org.openapitools:jackson-databind-nullable:${jacksonDatabindNullableVersion}"
     }
 
     test {
