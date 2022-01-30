@@ -1,10 +1,13 @@
 package com.academy.finaltask.core.entities;
 
 
+import lombok.experimental.SuperBuilder;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@SuperBuilder
 public class Employee {
 
     @Id

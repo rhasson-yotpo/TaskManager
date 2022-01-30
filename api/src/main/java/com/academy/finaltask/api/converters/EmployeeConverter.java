@@ -1,5 +1,9 @@
 package com.academy.finaltask.api.converters;
 
+import com.academy.finaltask.api.generated.model.EmployeeRequest;
+import com.academy.finaltask.api.generated.model.EmployeeRequestEmployee;
+import com.academy.finaltask.api.generated.model.EmployeeResponse;
+import com.academy.finaltask.api.generated.model.EmployeeResponseEmployee;
 import com.academy.finaltask.core.entities.Employee;
 //import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.json.JSONArray;
@@ -16,10 +20,13 @@ import java.util.stream.Collectors;
 public class EmployeeConverter {
     public EmployeeConverter(){}
 
-    public Employee employeeFromRequest(RequestEntity<String> request) throws JSONException {
-        return employeeFromJSONObject(new JSONObject(request.getBody()));
+    public Employee employeeFromRequest(EmployeeRequest employeeRequest) throws JSONException {
+        EmployeeRequestEmployee employee = employeeRequest.getEmployee();
+        return Employee.builder()
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName()).build();
     }
-
+/*
     public List<Employee> employeesFromRequest(RequestEntity<String> request) throws JSONException {
         JSONArray objs = new JSONObject(request.getBody()).getJSONArray("employees");
         List<Employee> employees = new ArrayList<Employee>();
@@ -33,19 +40,17 @@ public class EmployeeConverter {
     public List<String> toEmployeesResponse(List<Employee> employees){
         return employees.stream().map(this::toEmployeeResponse).collect(Collectors.toList());
     }
-
-    public String toEmployeeResponse(Employee employee) {
-        try{
-            return new JSONObject()
-                    .put("Id", employee.getEmployeeId())
-                    .put("FirstName", employee.getFirstName())
-                    .put("LastName", employee.getLastName())
-                    .toString();
-        } catch (JSONException e){
-            return "Issue parsing employee JSON";
-        }
+*/
+    public EmployeeResponse toEmployeeResponse(Employee employee) {
+        EmployeeResponseEmployee employeeResponseEmployee = new EmployeeResponseEmployee();
+        employeeResponseEmployee.setId(employee.getEmployeeId());
+        employeeResponseEmployee.setFirstName(employee.getFirstName());
+        employeeResponseEmployee.setLastName(employee.getLastName());
+        EmployeeResponse employeeResponse = new EmployeeResponse();
+        employeeResponse.setEmployee(employeeResponseEmployee);
+        return employeeResponse;
     }
-
+/*
     public JSONObject toEmployeeObjectResponse(Employee employee) throws JSONException {
         return new JSONObject()
                 .put("Id", employee.getEmployeeId())
@@ -59,4 +64,6 @@ public class EmployeeConverter {
                 employeeJSON.getString("last")
         );
     }
+
+ */
 }

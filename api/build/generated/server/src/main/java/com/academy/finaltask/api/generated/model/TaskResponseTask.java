@@ -1,7 +1,7 @@
 package com.academy.finaltask.api.generated.model;
 
 import java.util.Objects;
-import com.academy.finaltask.api.generated.model.TaskResponseTaskAssignee;
+import com.academy.finaltask.api.generated.model.EmployeeResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
@@ -26,7 +26,7 @@ public class TaskResponseTask   {
   private String status;
 
   @JsonProperty("assignee")
-  private TaskResponseTaskAssignee assignee;
+  private EmployeeResponse assignee;
 
   @JsonProperty("dueDate")
   private LocalDate dueDate;
@@ -91,7 +91,7 @@ public class TaskResponseTask   {
     this.status = status;
   }
 
-  public TaskResponseTask assignee(TaskResponseTaskAssignee assignee) {
+  public TaskResponseTask assignee(EmployeeResponse assignee) {
     this.assignee = assignee;
     return this;
   }
@@ -104,11 +104,11 @@ public class TaskResponseTask   {
 
   @Valid
 
-  public TaskResponseTaskAssignee getAssignee() {
+  public EmployeeResponse getAssignee() {
     return assignee;
   }
 
-  public void setAssignee(TaskResponseTaskAssignee assignee) {
+  public void setAssignee(EmployeeResponse assignee) {
     this.assignee = assignee;
   }
 

@@ -1,10 +1,14 @@
 package com.academy.finaltask.core.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Entity
@@ -22,7 +26,9 @@ public class Task {
     @JoinColumn(name = "employee_id")
     private Employee assignee;
 
-    private Date dueDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "YYYY-MM-dd")
+    private LocalDate dueDate;
 
     @Enumerated(EnumType.ORDINAL)
     private Status status;
@@ -30,14 +36,14 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title, Employee assignee, Date dueDate, Status status) {
+    public Task(String title, Employee assignee, LocalDate dueDate, Status status) {
         this.title = title;
         this.assignee = assignee;
         this.dueDate = dueDate;
         this.status = status;
     }
 
-    public Task(Long taskId, String title, Employee assignee, Date dueDate, Status status) {
+    public Task(Long taskId, String title, Employee assignee, LocalDate dueDate, Status status) {
         this.taskId = taskId;
         this.title = title;
         this.assignee = assignee;
@@ -69,11 +75,11 @@ public class Task {
         this.assignee = assignee;
     }
 
-    public Date getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 

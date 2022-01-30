@@ -20,8 +20,8 @@ public class TaskService {
     @Autowired
     private EmployeeService employeeService;
 
-    public Iterable<Task> findAll(){
-        return taskRepository.findAll();
+    public List<Task> findAll(){
+        return (List<Task>) taskRepository.findAll();
     }
 
     public List<Task> findAllByAssignee(Employee assignee){

@@ -34,6 +34,14 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs "$generateServerLocation/src/main/java/"
+        }
+    }
+}
+
 openApiGenerate {
     generatorName = "spring"
     inputSpec = "$projectDir/openApi/service.yaml"

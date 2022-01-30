@@ -1,6 +1,9 @@
 package com.academy.finaltask.api.controllers;
 
 import com.academy.finaltask.api.converters.TaskConverter;
+import com.academy.finaltask.api.generated.model.TaskRequest;
+import com.academy.finaltask.api.generated.model.TaskResponse;
+import com.academy.finaltask.api.generated.model.TasksResponse;
 import com.academy.finaltask.core.entities.Task;
 import com.academy.finaltask.core.exceptions.EntityExistsException;
 import com.academy.finaltask.core.services.TaskService;
@@ -11,83 +14,35 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import com.academy.finaltask.api.generated.*;
+
 
 import java.text.ParseException;
 import java.util.List;
 
-@RestController
-@RequestMapping("/tasks")
-public class TaskController {
-
+@Controller
+public class TaskController implements TaskApi{
 
     @Autowired
-    private TaskService taskService;
+    TaskConverter taskConverter;
 
     @Autowired
-    private TaskConverter taskConverter;
+    TaskService taskService;
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/add")
-    public ResponseEntity<String> create(RequestEntity<String> request) throws ParseException {
-        try {
-            Task createdTask = taskService.create(taskConverter.taskFromRequest(request));
-            return ResponseEntity.status(HttpStatus.CREATED).body(taskConverter.toTaskResponse(createdTask));
-        } catch (EntityExistsException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Task already exists");
-        }
-        catch (JSONException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect JSON Formatting");
-        }
+    @Override
+    public ResponseEntity<TaskResponse> create(TaskRequest taskRequest) throws EntityExistsException {
+        Task createdTask = taskService.create(taskConverter.taskFromRequest(taskRequest));
+        TaskResponse taskResponse = taskConverter.toTaskResponse(createdTask);
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskResponse);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PutMapping("/edit")
-    public ResponseEntity<String> edit (RequestEntity<String> request) throws ParseException {
-        try {
-            Task editedTask = taskService.update(taskConverter.taskFromEditRequest(request));
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(taskConverter.toTaskResponse(editedTask));
-        } catch (EntityExistsException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Task already exists, no edits made");
-        }
-        catch (JSONException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect JSON Formatting, Id is necessary for edit");
-        }
+    @Override
+    public ResponseEntity<TasksResponse> getAll(){
+        TasksResponse tasksResponse = taskConverter.toTasksResponse(taskService.findAll());
+        return ResponseEntity.status(HttpStatus.FOUND).body(tasksResponse);
     }
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/all")
-    public ResponseEntity<String> getAll(RequestEntity<String> request) throws ParseException, EntityExistsException {
-        List<Task> tasks = (List<Task>) taskService.findAll();
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(taskConverter.toTasksResponse(tasks).toString());
-    }
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @DeleteMapping("/all")
-    public ResponseEntity<String> deleteAll(RequestEntity<String> request){
-        taskService.deleteAll();
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("deleted");
-    }
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTask(RequestEntity<String> request, @PathVariable Long id){
-        taskService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(String.format("deleted task with Id %o", id));
-    }
-
-
-
-
-
-    /*
-    TODO:
-     Add multiple tasks - not super important right away
-     Get all for one employee : filter and sort
-
-     Calls service to check validity and execute action
-     returns response entity
-     */
 
 
 

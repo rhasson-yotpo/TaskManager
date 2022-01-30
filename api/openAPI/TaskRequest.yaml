@@ -1,5 +1,7 @@
 task:
   post:
+    tags:
+      - task
     summary: post a task
     operationId: create
     requestBody:
@@ -8,18 +10,20 @@ task:
         application/json:
           schema:
             $ref: 'TaskComponents.yaml#/TaskRequest'
-  responses:
-    200:
-      description: created task
-      content:
-        application/json:
-          schema:
-            $ref: 'TaskComponents.yaml#/TaskResponse'
-    400:
-      description: request unable to go through
+    responses:
+      200:
+        description: created task
+        content:
+          application/json:
+            schema:
+              $ref: 'TaskComponents.yaml#/TaskResponse'
+      400:
+        description: request unable to go through
 
 tasks:
   get:
+    tags:
+      - task
     summary: get all tasks
     operationId: getAll
     responses:
