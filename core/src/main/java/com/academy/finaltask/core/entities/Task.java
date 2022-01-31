@@ -19,6 +19,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long taskId;
 
+    @Column(nullable = false)
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)

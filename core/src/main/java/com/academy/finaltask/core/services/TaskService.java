@@ -3,6 +3,7 @@ package com.academy.finaltask.core.services;
 import com.academy.finaltask.core.entities.Employee;
 import com.academy.finaltask.core.entities.Task;
 import com.academy.finaltask.core.exceptions.EntityExistsException;
+import com.academy.finaltask.core.exceptions.NullFieldException;
 import com.academy.finaltask.core.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,19 +33,20 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
-    public Task create(Task task) throws EntityExistsException {
+    public Task create(Task task) throws EntityExistsException, NullFieldException {
         if (task.isValidTask()){
             throwIfTaskAlreadyExists(task);
+            return save(task);
         }
-        return save(task);
+        throw new NullFieldException("NullFieldException");
     }
 
-    public Task update(Task task) throws EntityExistsException {
+    public Task update(Task task) throws EntityExistsException, NullFieldException {
         if(task.isValidTask()){
             return save(task);
         }
         else {
-            return null;
+            throw new NullFieldException("NullFieldException");
         }
     }
 
@@ -77,7 +79,7 @@ public class TaskService {
             savedTask = taskRepository.save(task);
 
         } catch (DataIntegrityViolationException e){
-            throw new EntityExistsException("Task already exists");
+            throw new EntityExistsException("EntityExistsExeption");
         }
         return savedTask;
     }
@@ -87,7 +89,7 @@ public class TaskService {
         if (!taskExists) {
             return;
         }
-        throw new EntityExistsException("Task already exists");
+        throw new EntityExistsException("EntityExistsException");
     }
 
 }

@@ -68,3 +68,10 @@ ObjectIdRequest:
   schema:
     type: integer
     format: int64
+ErrorResponse:
+  type: object
+  properties:
+    error:
+      type: string
+    message:
+      type: string

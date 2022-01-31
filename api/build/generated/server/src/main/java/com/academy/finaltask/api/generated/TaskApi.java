@@ -5,6 +5,7 @@
  */
 package com.academy.finaltask.api.generated;
 
+import com.academy.finaltask.api.generated.model.ErrorResponse;
 import com.academy.finaltask.api.generated.model.TaskRequest;
 import com.academy.finaltask.api.generated.model.TaskResponse;
 import com.academy.finaltask.api.generated.model.TasksResponse;
@@ -42,7 +43,7 @@ public interface TaskApi {
     }, tags={ "task", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "created task", response = TaskResponse.class),
-        @ApiResponse(code = 400, message = "request unable to go through") })
+        @ApiResponse(code = 400, message = "request unable to go through", response = ErrorResponse.class) })
     @RequestMapping(value = "/task/add",
         produces = { "application/json" }, 
         consumes = { "application/json" },

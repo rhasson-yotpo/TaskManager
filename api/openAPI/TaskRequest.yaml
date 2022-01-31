@@ -19,6 +19,10 @@ task:
               $ref: 'TaskComponents.yaml#/TaskResponse'
       400:
         description: request unable to go through
+        content:
+          application/json:
+            schema:
+              $ref: 'TaskComponents.yaml#/ErrorResponse'
 
 tasks:
   get:
