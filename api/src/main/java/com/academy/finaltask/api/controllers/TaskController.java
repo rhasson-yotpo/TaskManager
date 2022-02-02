@@ -47,6 +47,28 @@ public class TaskController implements TaskApi{
         return ResponseEntity.status(HttpStatus.FOUND).body(tasksResponse);
     }
 
+    @Override
+    public ResponseEntity<TaskResponse> edit(@PathVariable("task_id") Long taskId, TaskRequest taskRequest) throws NullFieldException, EntityExistsException {
+        Task taskToEdit = taskConverter.taskFromRequest(taskRequest);
+        taskToEdit.setTaskId(taskId);
+        TaskResponse taskResponse = taskConverter.toTaskResponse(taskService.update(taskToEdit));
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskResponse);
+    }
+
+    @Override
+    public ResponseEntity<Void> delete(@PathVariable("task_id") Long taskId){
+        taskService.deleteById(taskId);
+        return ResponseEntity.status(200).build();
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteAll(){
+        taskService.deleteAll();
+        return ResponseEntity.status(200).build();
+    }
+
+
+
 
 
 }

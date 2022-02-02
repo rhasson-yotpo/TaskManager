@@ -44,11 +44,64 @@ public interface TaskApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "created task", response = TaskResponse.class),
         @ApiResponse(code = 400, message = "request unable to go through", response = ErrorResponse.class) })
-    @RequestMapping(value = "/task/add",
+    @RequestMapping(value = "/tasks",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
     default ResponseEntity<TaskResponse> create(@ApiParam(value = "" ,required=true )  @Valid @RequestBody TaskRequest taskRequest) throws Exception {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"task\" : { \"dueDate\" : \"2000-01-23\", \"id\" : 0, \"assignee\" : { \"employee\" : { \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"id\" : 6 } }, \"title\" : \"title\", \"status\" : \"status\" } }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    @ApiOperation(value = "Delete task by id", nickname = "delete", notes = "", authorizations = {
+        @Authorization(value = "bearer")
+    }, tags={ "task", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "task was deleted"),
+        @ApiResponse(code = 404, message = "task not found") })
+    @RequestMapping(value = "/tasks/{task_id}",
+        method = RequestMethod.DELETE)
+    default ResponseEntity<Void> delete(@ApiParam(value = "",required=true) @PathVariable("task_id") Long taskId) throws Exception {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    @ApiOperation(value = "delete all tasks", nickname = "deleteAll", notes = "", authorizations = {
+        @Authorization(value = "bearer")
+    }, tags={ "task", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "deleted all tasks") })
+    @RequestMapping(value = "/tasks",
+        method = RequestMethod.DELETE)
+    default ResponseEntity<Void> deleteAll() throws Exception {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    @ApiOperation(value = "edit a task", nickname = "edit", notes = "", response = TaskResponse.class, authorizations = {
+        @Authorization(value = "bearer")
+    }, tags={ "task", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "the updated task", response = TaskResponse.class),
+        @ApiResponse(code = 404, message = "Not found", response = ErrorResponse.class),
+        @ApiResponse(code = 400, message = "invalid fields", response = ErrorResponse.class) })
+    @RequestMapping(value = "/tasks/{task_id}",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.PUT)
+    default ResponseEntity<TaskResponse> edit(@ApiParam(value = "",required=true) @PathVariable("task_id") Long taskId,@ApiParam(value = "" ,required=true )  @Valid @RequestBody TaskRequest taskRequest) throws Exception {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -69,7 +122,7 @@ public interface TaskApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "all current tasks", response = TasksResponse.class),
         @ApiResponse(code = 204, message = "no tasks yet") })
-    @RequestMapping(value = "/tasks/all",
+    @RequestMapping(value = "/tasks",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<TasksResponse> getAll() throws Exception {

@@ -1,4 +1,74 @@
 task:
+  put:
+    tags:
+      - task
+    summary: edit a task
+    operationId: edit
+    parameters:
+      - in: path
+        name: task_id
+        required: true
+        schema:
+          type: integer
+          format: int64
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'TaskComponents.yaml#/TaskRequest'
+    responses:
+      200:
+        description: the updated task
+        content:
+          application/json:
+            schema:
+              $ref: 'TaskComponents.yaml#/TaskResponse'
+      404:
+        description: Not found
+        content:
+          application/json:
+            schema:
+              $ref: 'TaskComponents.yaml#/ErrorResponse'
+      400:
+        description: invalid fields
+        content:
+          application/json:
+            schema:
+              $ref: 'TaskComponents.yaml#/ErrorResponse'
+  delete:
+    summary: Delete task by id
+    operationId: delete
+    tags:
+      - task
+    parameters:
+      - in: path
+        name: task_id
+        required: true
+        schema:
+          type: integer
+          format: int64
+    responses:
+      200:
+        description: task was deleted
+      404:
+        description: task not found
+
+tasks:
+  get:
+    tags:
+      - task
+    summary: get all tasks
+    operationId: getAll
+    responses:
+      200:
+        description: all current tasks
+        content:
+          application/json:
+            schema:
+              $ref: 'TaskComponents.yaml#/TasksResponse'
+      204:
+        description: no tasks yet
   post:
     tags:
       - task
@@ -23,19 +93,11 @@ task:
           application/json:
             schema:
               $ref: 'TaskComponents.yaml#/ErrorResponse'
-
-tasks:
-  get:
+  delete:
     tags:
       - task
-    summary: get all tasks
-    operationId: getAll
+    summary: delete all tasks
+    operationId: deleteAll
     responses:
       200:
-        description: all current tasks
-        content:
-          application/json:
-            schema:
-              $ref: 'TaskComponents.yaml#/TasksResponse'
-      204:
-        description: no tasks yet
+        description: deleted all tasks
